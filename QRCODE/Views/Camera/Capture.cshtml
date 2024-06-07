@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "SCAN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<meta http-equiv="content-type" content="text/html; charset=utf-8 " />-->
+    <meta name="viewport" content="width=device-width"/>
+    <title>SCAN QR CODE</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <style type="text/css">
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        h2,h3{
+            margin-top:0;
+        }
+        form{
+            margin-top:15px;
+        }
+        form>input{
+            margin-right:15px;
+        }
+        #buttonhide{
+            background:transparent;
+            border:none !important;
+            font-size:0;
+        }
+
+    </style>
+</head>
+<body class="container">
+    
+    <br />
+    <form asp-controller="Camera" asp-action="Index">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Scan QRCode Here
+            </div>
+            <div class="panel-body">
+                <div id="myCamera"></div>
+                <br />
+                    <input type="button" class="btn btn-primary" value="Scan QR" onclick="scanTheQR()" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <br />
+                QR Captured will appear here...
+                <br /><br />
+            </div>
+            <div class="panel-body">
+                <div id="result"></div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    </form>
+    <script src="~/webcam/webcam.js"></script>
+    <script language="JavaScript">
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+
+        });
+        Webcam.attach("#myCamera");
+    </script>
+    <script language="JavaScript">
+        function scanTheQR() {
+            Webcam.snap(function (data_uri) {
+                document.getElementById('result').innerHTML =
+                    '<img src="' + data_uri + '"/>';
+                Webcam.upload(data_uri, 'Camera/Capture', function (code, text) {
+                    
+                });
+                var someStringValue = $("#rslt").data("myValue");
+                console.log(someStringValue);
+            });
+        }
+    </script>
+    
+</body>
+</html>
