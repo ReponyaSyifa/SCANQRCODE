@@ -110,7 +110,7 @@ namespace QRCODE.Controllers
                             }
                         }
                     }
-                    return Json(true);
+                    return View();
                 }
                 else
                 {
